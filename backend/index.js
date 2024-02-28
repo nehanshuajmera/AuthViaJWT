@@ -9,6 +9,7 @@ const app = express();
 import { gameRouter } from "./routes/gameRoute.js";
 import { authorRouter } from "./routes/authorRoute.js";
 import { reviewRouter } from "./routes/reviewRoute.js";
+import { userRouter } from "./routes/userRoute.js";
 
 app.use(express.json());
 app.use(cors());
@@ -25,6 +26,7 @@ app.use((req, res, next) => {
 app.use("/api/game", gameRouter);
 app.use("/api/author", authorRouter);
 app.use("/api/review", reviewRouter);
+app.use("/api/user", userRouter);
 
 const connect = async () => {
     await mongoose.connect(process.env.DB);

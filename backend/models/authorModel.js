@@ -1,15 +1,24 @@
-import mongoose  from 'mongoose';
-const Schema  = mongoose.Schema;
+import mongoose from "mongoose";
+const Schema = mongoose.Schema;
 
-const authorSchema = new Schema({
-    name: {
-        type: String,
-        required: true
+const authorSchema = new Schema(
+    {
+        name: {
+            type: String,
+            required: true,
+        },
+        verified: {
+            type: Boolean,
+            required: true,
+        },
+        reviews: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Review",
+            },
+        ],
     },
-    verified: {
-        type: Boolean,
-        required: true
-    }
-}, { timestamps: true });
+    { timestamps: true }
+);
 
-export const Author = mongoose.model('Author', authorSchema);
+export const Author = mongoose.model("Author", authorSchema);

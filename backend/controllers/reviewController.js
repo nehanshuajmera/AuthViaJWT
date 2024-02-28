@@ -1,9 +1,11 @@
 import mongoose from "mongoose";
 import { Review } from "../models/reviewModel.js";
+import { Game } from "../models/gameModel.js";
+import { Author } from '../models/authorModel.js'
 
 export const getReviews = async (req, res) => {
     try {
-        const reviews = await Review.find();
+        const reviews = await Review.find().populate('game').populate('author').exec();
         res.status(200).json(reviews);
     } catch (err) {
         res.status(404).json({ message: err.message });
@@ -27,14 +29,32 @@ export const getReview = async (req, res) => {
 };
 
 export const createReview = async (req, res) => {
-    const review = req.body;
+    const { rating, content, game: gameId, author: authorId } = req.body;
     try {
-        const newReview = await Review.create(review);
+        if (!gameId || !authorId) {
+            return res.status(404).send("Game or Author not found");
+        }
+        const gameExists = await Game.findById(gameId).populate('reviews');
+        const authorExists = await Author.findById(authorId).populate('reviews');
+
+        if (!gameExists || !authorExists) {
+            return res.status(404).send("Game or Author not found");
+        }
+
+        const newReview = await Review.create({ rating, content, game: gameId, author: authorId });
+
+        gameExists.reviews.push(newReview._id);
+        await gameExists.save();
+
+        authorExists.reviews.push(newReview._id);
+        await authorExists.save();
+
         res.status(201).json(newReview);
     } catch (err) {
         res.status(409).json({ message: err.message });
     }
 };
+
 
 export const updateReview = async (req, res) => {
     const { id } = req.params;
@@ -43,7 +63,9 @@ export const updateReview = async (req, res) => {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send("No review with that id");
         }
-        const updatedReview = await Review.findByIdAndUpdate(id, review, { new: true });
+        const updatedReview = await Review.findByIdAndUpdate(id, review, {
+            new: true,
+        });
         if (!updatedReview) {
             return res.status(404).send("No review with that id");
         }

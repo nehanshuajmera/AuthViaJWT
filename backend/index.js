@@ -10,6 +10,9 @@ import { gameRouter } from "./routes/gameRoute.js";
 import { authorRouter } from "./routes/authorRoute.js";
 import { reviewRouter } from "./routes/reviewRoute.js";
 
+app.use(express.json());
+app.use(cors());
+
 // middleware
 let reqCount = 0;
 app.use((req, res, next) => {
@@ -22,9 +25,6 @@ app.use((req, res, next) => {
 app.use("/api/game", gameRouter);
 app.use("/api/author", authorRouter);
 app.use("/api/review", reviewRouter);
-
-app.use(express.json());
-app.use(cors());
 
 const connect = async () => {
     await mongoose.connect(process.env.DB);

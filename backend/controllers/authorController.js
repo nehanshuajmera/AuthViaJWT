@@ -3,7 +3,7 @@ import { Author } from '../models/authorModel.js';
 
 export const getAuthors = async (req, res) => {
     try {
-        const authors = await Author.find();
+        const authors = await Author.find().populate('reviews').exec();
         res.status(200).json(authors);
     } catch (err) {
         res.status(404).json({ message: err.message });
@@ -16,7 +16,7 @@ export const getAuthor = async (req, res) => {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send("No author with that id");
         }
-        const author = await Author.findById({ _id: id });
+        const author = await Author.findById(id).populate('reviews').exec();
         if (!author) {
             return res.status(404).send("No author with that id");
         }
@@ -40,7 +40,7 @@ export const updateAuthor = async (req, res) => {
     const { id } = req.params;
     const author = req.body;
     try {
-        if (!mongoose.Types.ObjectId.isValid({ _id: id })) {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send("No author with that id");
         }
         const updatedAuthor = await Author.findByIdAndUpdate(id, author, { new: true });
@@ -56,7 +56,7 @@ export const updateAuthor = async (req, res) => {
 export const deleteAuthor = async (req, res) => {
     const { id } = req.params;
     try {
-        if (!mongoose.Types.ObjectId.isValid({ _id: id })) {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).send("No author with that id");
         }
         await Author.findByIdAndRemove(id);

@@ -26,18 +26,17 @@ const userSchema = new Schema(
     }
 );
 
-userSchema.statics.signUp = async function (username, password) {
-    if (!username || !password) {
+userSchema.statics.signUp = async function (username, email, password) {
+    if (!username || !email || !password) {
         throw new Error("All fields must be filled");
     }
-
-    if (!validator.matches(username, "^[a-z0-9_.-]*$")) {
-        console.log("Username not valid");
+    else if (!validator.matches(username, "^[a-z0-9_.-]{8,}$")) {
         throw new Error("username is not valid");
-    } else {
-        console.log("Good Username!");
     }
-    if (
+    else if (!validator.isEmail(email)) {
+        throw new Error("Email is not valid");
+    }
+    else if (
         !validator.isStrongPassword(password, {
             minLength: 8,
             minLowercase: 1,
@@ -50,15 +49,15 @@ userSchema.statics.signUp = async function (username, password) {
         throw new Error("Password not strong enough");
     }
 
-    const exists = await this.findOne({ username });
+    const exists = await this.findOne({ username, email });
     if (exists) {
-        throw new Error("Username already in use");
+        throw new Error("Username or Email already in use");
     }
 
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
 
-    const user = await this.create({ username, password: hash });
+    const user = await this.create({ username, email, password: hash });
     return user;
 };
 

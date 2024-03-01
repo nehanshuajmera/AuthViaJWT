@@ -1,0 +1,53 @@
+header{
+    width: 100%;
+    height: 12vh;
+    background-color: #fff;
+}
+
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    padding: 0.2rem 1rem;
+}
+
+.navbar a{
+    text-decoration: none;
+    color: #000;
+}
+
+.appLogo{
+    width: 10rem;
+    height: 6rem;
+}
+
+.appLogo img{
+    width: 100%;
+    height: 100%;
+    mix-blend-mode: multiply;
+}
+
+.appAuth{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 20%;
+    padding: 0.5rem;
+}
+
+.authBtn{
+    display: flex;
+    align-items: center;
+    font-size: 1.3rem;
+    padding: 0.5rem 0.7rem;
+    border: none;
+    height: 5vh;
+    border-radius: 0.4rem;
+    background-color: #f4f4f4;
+    font-weight: 500;
+}
+
+.authBtn:hover{
+    background-color: #e4e4e4;
+}

@@ -29,7 +29,7 @@ const App = () => {
         />
         <div className="pages">
           <Routes>
-            <Route path="/signup" element={<Signup onLogin={handleLogin} />} />
+            <Route path="/signup" element={<Signup onSignup={handleLogin} />} />
             <Route path="/login" element={<Login onLogin={handleLogin} />} />
             <Route path="/" element={<Home />} />
           </Routes>

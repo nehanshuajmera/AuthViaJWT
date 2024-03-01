@@ -34,7 +34,7 @@ export const Login = ({onLogin}) => {
       }
     } catch (error) {
       console.error("Error logging in:", error.message);
-      setError("Invalid login credentials"); // Set error state
+      setError("Invalid login credentials", error.message); // Set error state
       setShowModal(true); // Show modal
     } finally {
       setLoading(false);
@@ -70,7 +70,7 @@ export const Login = ({onLogin}) => {
               onChange={(e) => setPassword(e.target.value)}
             />
             <button className="opacity" type="submit" disabled={loading}>
-              {loading ? "Loading..." : "SUBMIT"}
+              {loading ? "Loading..." : "Login"}
             </button>
           </form>
           <div className="register-forget opacity">

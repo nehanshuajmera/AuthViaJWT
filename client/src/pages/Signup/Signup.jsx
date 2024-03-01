@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Signup.css";
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Signup = ({ onSignup }) => {
   const [username, setUsername] = useState("");
@@ -10,6 +10,7 @@ export const Signup = ({ onSignup }) => {
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -26,7 +27,6 @@ export const Signup = ({ onSignup }) => {
           },
         }
       );
-      console.log(res);
       if (res.statusText) {
         setUsername("");
         setEmail("");
@@ -42,6 +42,10 @@ export const Signup = ({ onSignup }) => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   const closeModal = () => {
@@ -71,17 +75,27 @@ export const Signup = ({ onSignup }) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <input
-          type="password"
-          placeholder="Password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div className="password-field">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <span
+            className={showPassword ? "eye-icon open" : "eye-icon closed"}
+            onClick={togglePasswordVisibility}
+            style={{ right: "50px", cursor: "pointer", position: "absolute", top: "60%", transform: "translateY(-50%)" }}
+          >
+            {showPassword ? "👁️" : "👁️"}
+          </span>
+        </div>
         {/* <input type="password" placeholder="Password" id="password" /> */}
         <button type="submit" disabled={loading}>
           {loading ? "Loading..." : "Sign Up"}
         </button>
+        {/* <Link to='/login'>Login</Link> */}
       </form>
       {showModal && (
         <div className="modal">

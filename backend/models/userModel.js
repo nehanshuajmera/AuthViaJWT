@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import validator from "validator";
+import isDisposableEmail from 'is-disposable-email'
 
 const Schema = mongoose.Schema;
 
@@ -33,7 +34,7 @@ userSchema.statics.signUp = async function (username, email, password) {
     else if (!validator.matches(username, "^[a-z0-9_.-]{8,}$")) {
         throw new Error("username is not valid");
     }
-    else if (!validator.isEmail(email)) {
+    else if (!validator.isEmail(email) || isDisposableEmail(email)) {
         throw new Error("Email is not valid");
     }
     else if (

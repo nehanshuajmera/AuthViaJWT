@@ -4,6 +4,12 @@ header{
     background-color: #fff;
 }
 
+:root {
+    --background: #1a1a2e;
+    --color: #ffffff;
+    --primary-color: #0f3460;
+}
+
 .navbar{
     display: flex;
     justify-content: space-between;
@@ -50,4 +56,12 @@ header{
 
 .authBtn:hover{
     background-color: #e4e4e4;
+}
+
+.username{
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-right: 0.5rem;
+    text-transform: capitalize;
+    color: var(--primary-color);
 }

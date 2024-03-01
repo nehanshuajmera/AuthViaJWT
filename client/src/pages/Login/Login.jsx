@@ -3,7 +3,7 @@ import axios from "axios";
 import "./Login.css";
 import { useState } from "react";
 
-export const Login = () => {
+export const Login = ({onLogin}) => {
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
@@ -29,6 +29,7 @@ export const Login = () => {
         setUsername("");
         setPassword("");
         setError(null);
+        onLogin(username);
         navigate("/");
       }
     } catch (error) {

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Signup.css";
 import axios from 'axios';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const Signup = ({ onSignup }) => {
   const [username, setUsername] = useState("");
@@ -88,7 +88,7 @@ export const Signup = ({ onSignup }) => {
             onClick={togglePasswordVisibility}
             style={{ right: "50px", cursor: "pointer", position: "absolute", top: "60%", transform: "translateY(-50%)" }}
           >
-            {showPassword ? "👁️" : "👁️"}
+            {showPassword ? "Hide Password" : "Show Password"}
           </span>
         </div>
         {/* <input type="password" placeholder="Password" id="password" /> */}
